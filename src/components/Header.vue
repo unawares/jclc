@@ -1,5 +1,5 @@
 <template>
-  <div class="main header mini top" v-scroll="handleScroll">
+  <div class="main header top" v-scroll="handleScroll" v-resize="handleResize">
     <div class="desktop">
       <div class="container">
         <div class="tabs">
@@ -28,6 +28,14 @@ export class MenuItem {
   }
 }
 
+function scroll (event) {
+  scroll.binding.value(event, scroll.element)
+}
+
+function resize (event) {
+  resize.binding.value(event, resize.element)
+}
+
 export default {
   name: 'Header',
   props: {
@@ -38,55 +46,84 @@ export default {
       lastScrollY: window.scrollY
     }
   },
+  mounted () {
+    this.invalidate()
+  },
   methods: {
-    handleScroll: function (event, element) {
-      const HEIGHT = 50
+    handleScroll (event, element) {
+      this.invalidate()
+    },
+    handleResize (event, element) {
+      this.invalidate()
+    },
+    invalidate () {
+      let element = this.$el
+      let scrollY = (window.scrollY > 0) ? window.scrollY : 0
       const elementHeight = element.offsetHeight
-      let progress = Math.max(Math.min((this.lastScrollY - window.scrollY) / HEIGHT, 1), 0)
-      if (window.scrollY - HEIGHT > this.lastScrollY) {
-        this.lastScrollY = window.scrollY - HEIGHT
+      const offset = elementHeight
+      this.lastScrollY = Math.max(this.lastScrollY, elementHeight)
+      let progress = Math.max(Math.min((this.lastScrollY - scrollY) / elementHeight, 1), 0)
+      if (scrollY - elementHeight > this.lastScrollY) {
+        this.lastScrollY = scrollY - elementHeight
       }
-      if (window.scrollY + HEIGHT < this.lastScrollY) {
-        this.lastScrollY = window.scrollY + HEIGHT
+      if (scrollY + elementHeight < this.lastScrollY) {
+        this.lastScrollY = scrollY + elementHeight
       }
       element.style.top = `-${elementHeight * (1 - progress)}px`
-      if (window.scrollY < elementHeight) {
+      if (scrollY < elementHeight + offset) {
         element.classList.add('top')
+        element.classList.remove('shadow')
       } else {
         element.classList.remove('top')
+        if (progress > 0) {
+          element.classList.add('shadow')
+        } else {
+          element.classList.remove('shadow')
+        }
       }
+      let p = 1 - Math.min(scrollY / offset, 1)
+      let media = window.matchMedia('(max-width: 800px)')
+      p = (media.matches) ? 0 : p
+      element.style.marginTop = `${p * 36}px`
     }
   },
   directives: {
     scroll: {
-      inserted: function (element, binding) {
-        let func = function (event) {
-          if (binding.value(event, element)) {
-            window.removeEventListener('scroll', func)
-          }
-        }
-        window.addEventListener('scroll', func)
+      bind (element, binding) {
+        scroll.element = element
+        scroll.binding = binding
+        window.addEventListener('scroll', scroll, false)
+      },
+      unbind (element, binding) {
+        window.removeEventListener('scroll', scroll, false)
       }
-    }
-  },
-  watch: {
-    '$route': function (to, from) {
-      window.scrollTo(0, 0)
+    },
+    resize: {
+      bind (element, binding) {
+        resize.element = element
+        resize.binding = binding
+        window.addEventListener('resize', resize, false)
+      },
+      unbind (element, binding) {
+        window.removeEventListener('resize', resize, false)
+      }
     }
   }
 }
 </script>
 
 <style lang="stylus" scoped>
-dark-blue = #293A56
+
+mobile-max-width = 800px
+shadow = 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23)
 
 .header
   position fixed
   left 0
   top 0
   right 0
-  transition-duration 100ms
-  transition-timing-function cubic-bezier(0.16, 0.39, 0.26, 1.22)
+  z-index 100
+  margin-top 36px
 
   .mobile
     display none
@@ -98,10 +135,12 @@ dark-blue = #293A56
       align-items center
       justify-content center
 
-  @media only screen and (max-width: 800px)
+  &.shadow
+    box-shadow shadow
 
-    background-color #405177
-    box-shadow 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23)
+  @media only screen and (max-width: mobile-max-width)
+
+    background-color black
 
     .mobile
       position relative
@@ -122,12 +161,13 @@ dark-blue = #293A56
     .desktop
       display none
 
-  @media only screen and (min-width: 800px)
+  @media only screen and (min-width: mobile-max-width + 1)
 
     .container
       position relative
       display flex
       justify-content center
+      flex-direction column
 
       .tabs
         list-style-type none
@@ -142,17 +182,18 @@ dark-blue = #293A56
           width 120px
           height 36px
           font-size 0.9em
-          color dark-blue
+          font-weight 600
+          color black
           text-align center
           text-decoration none
 
           &.router-link-active
-            border solid 2px dark-blue
-            border-radius 8px
+            border solid 2px black
+            border-radius 16px
 
     &:not(.top)
-      background-color #405177
-      box-shadow 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23)
+
+      background-color black
 
       .tab
         color white !important

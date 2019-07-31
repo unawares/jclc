@@ -33,8 +33,11 @@ export default {
 
 <style lang="stylus">
 body
+  background-color #F7F7F7
   margin 0
   padding 0
+  min-width 360px
+  position relative
 
 @font-face
   font-family 'Material Icons'
@@ -54,23 +57,18 @@ body
   word-wrap normal
   white-space nowrap
   direction ltr
-
-  /* Support for all WebKit browsers. */
   -webkit-font-smoothing: antialiased
-  /* Support for Safari and Chrome. */
   text-rendering: optimizeLegibility
-
-  /* Support for Firefox. */
   -moz-osx-font-smoothing: grayscale
-
-  /* Support for IE. */
   font-feature-settings: 'liga'
 
 #app
   font-family 'Avenir', Helvetica, Arial, sans-serif
-  // -webkit-font-smoothing antialiased
-  -moz-osx-font-smoothing grayscale
-  color #293A56
+  -webkit-font-smoothing: antialiased
+  text-rendering: optimizeLegibility
+  -moz-osx-font-smoothing: grayscale
+  font-feature-settings: 'liga'
+  color black
 
 .main
   display flex
