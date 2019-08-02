@@ -179,7 +179,7 @@ shadow = 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23)
           display inline-flex
           justify-content center
           align-items center
-          width 120px
+          width 128px
           height 36px
           font-size 0.9em
           font-weight 600
