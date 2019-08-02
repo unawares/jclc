@@ -14,11 +14,17 @@ function func (event) {
 
 export default {
   name: 'ParallaxBackground',
+  mounted () {
+    this.invalidate()
+  },
   methods: {
-    handleScroll (event, element) {
+    invalidate () {
       let height = this.$el.offsetHeight
       let progress = Math.max(Math.min(window.scrollY / height, 1), 0)
       this.$refs.image.style.transform = `translateY(${progress * 160}px)`
+    },
+    handleScroll (event, element) {
+      this.invalidate()
       // this.$refs.background2.style.transform = `translateY(${progress * 100}px)`
     }
   },

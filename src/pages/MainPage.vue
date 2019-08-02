@@ -48,7 +48,6 @@ export default {
       text-align end
       width 700px
       max-width 100%
-      text-shadow 1px 1px 2px rgba(0, 0, 0, 0.2)
 
       h1
         margin 8px
