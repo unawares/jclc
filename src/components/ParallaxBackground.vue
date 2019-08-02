@@ -1,6 +1,6 @@
 <template>
   <div class="backround" v-scroll="handleScroll">
-    <img ref="image" src="@/assets/b.jpg" />
+    <img ref="image" src="@/assets/bkbk.jpg" />
     <!-- <img ref="background2" src="@/assets/background2.svg" /> -->
     <!-- <img ref="background1" src="@/assets/background1.svg" /> -->
   </div>
@@ -43,7 +43,7 @@ export default {
   display flex
   position relative
   justify-content center
-  opacity 0.6
+  opacity 0.8
 
   > img
     position absolute

@@ -36,9 +36,8 @@ body
   background-color #F7F7F7
   margin 0
   padding 0
-  min-width 360px
+  min-width 300px
   position relative
-
 @font-face
   font-family 'Material Icons'
   font-style normal
