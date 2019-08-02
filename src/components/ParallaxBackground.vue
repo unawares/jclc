@@ -1,8 +1,9 @@
 <template>
   <div class="backround" v-scroll="handleScroll">
-    <img ref="image" src="@/assets/bkbk.jpg" />
+    <img ref="image" src="@/assets/rsz_a-min.jpg" />
     <!-- <img ref="background2" src="@/assets/background2.svg" /> -->
     <!-- <img ref="background1" src="@/assets/background1.svg" /> -->
+    <div class="overlay"></div>
   </div>
 </template>
 
@@ -45,15 +46,23 @@ export default {
 
 <style lang="stylus" scoped>
 .backround
+  position relative
   overflow hidden
   display flex
   position relative
   justify-content center
-  opacity 0.8
 
-  > img
+  > img, .overlay
+    height 100%
+    width 100%
     position absolute
     bottom 0
     min-width 800px
     max-width 100%
+    object-fit cover
+    object-position bottom
+
+  > .overlay
+    background-color white
+    opacity 0.5
 </style>

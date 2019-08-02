@@ -1,6 +1,6 @@
 <template>
-  <div class="main header top" v-scroll="handleScroll" v-resize="handleResize">
-    <div class="desktop">
+  <div class="header top" v-scroll="handleScroll" v-resize="handleResize">
+    <div class="desktop main">
       <div class="container">
         <div class="tabs">
           <router-link v-for="(item, index) in items" :key="index"
@@ -82,7 +82,7 @@ export default {
         }
       }
       let p = 1 - Math.min(scrollY / offset, 1)
-      let media = window.matchMedia('(max-width: 800px)')
+      let media = window.matchMedia('(max-width: 1000px)')
       p = (media.matches) ? 0 : p
       element.style.marginTop = `${p * 36}px`
     }
@@ -114,7 +114,7 @@ export default {
 
 <style lang="stylus" scoped>
 
-mobile-max-width = 800px
+mobile-max-width = 1000px
 shadow = 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23)
 
 .header
@@ -127,6 +127,9 @@ shadow = 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23)
 
   .mobile
     display none
+
+    .container
+      width 100%
 
     .menu
       height 54px
@@ -164,12 +167,11 @@ shadow = 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23)
   @media only screen and (min-width: mobile-max-width + 1)
 
     .container
-      position relative
-      display flex
-      justify-content center
-      flex-direction column
 
       .tabs
+        position relative
+        display flex
+        justify-content space-around
         list-style-type none
         margin 0
         padding 8px 0
@@ -181,7 +183,7 @@ shadow = 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23)
           align-items center
           width 128px
           height 36px
-          font-size 0.9em
+          font-size 16
           font-weight 600
           color black
           text-align center

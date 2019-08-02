@@ -33,11 +33,14 @@ export default {
 
 <style lang="stylus">
 body
-  background-color #F7F7F7
+  background-color #1C2026
   margin 0
   padding 0
   min-width 300px
   position relative
+  display flex
+  justify-content center
+
 @font-face
   font-family 'Material Icons'
   font-style normal
@@ -68,6 +71,8 @@ body
   -moz-osx-font-smoothing: grayscale
   font-feature-settings: 'liga'
   color black
+  max-width 1600px
+  width 100vw
 
 .main
   display flex
